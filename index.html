@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Adjust_Dropdown_Presentation</title>
+  </head>
+  <body>
+    <form id="form" class="select-form">
+      <!-- 隱藏原生 select tag，使用 div 來模擬下拉選單 -->
+      <div id="dropdown" class="dropdown">
+        <div
+          class="dropdown-toggle"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          請選擇狀態
+          <span class="arrow-icon">&#9662;</span>
+        </div>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
+        <button class="submit-button" type="submit">提交</button>
+      </div>
+      <select id="originalSelect" name="status" multiple style="display: none">
+        <option value="New">New</option>
+        <option value="Open">Open</option>
+        <option value="Resolved">Resolved</option>
+        <option value="Verified">Verified</option>
+        <option value="Closed">Closed</option>
+        <option value="Postponed">Postponed</option>
+        <option value="not_deployed">Fixed not deployed</option>
+      </select>
+    </form>
+    <div class="display-area"></div>
+    <script src="./index.js"></script>
+  </body>
+</html>
