@@ -21,9 +21,15 @@ function setupDropdown(selectId, formId, displayAreaClass) {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    form.querySelectorAll('input[type="hidden"]').forEach(input => input.remove());
-
     const selectedOptions = Array.from(originalSelect.options).filter(option => option.selected);
+
+    // 檢查不可空白
+    if (selectedOptions.length === 0) {
+      alert('請至少選擇一個狀態！');
+      return;
+    }
+
+    form.querySelectorAll('input[type="hidden"]').forEach(input => input.remove());
 
     selectedOptions.forEach(option => {
       const hiddenInput = document.createElement('input');
