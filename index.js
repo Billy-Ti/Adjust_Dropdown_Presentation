@@ -7,11 +7,19 @@ function setupDropdown(selectId, formId, displayAreaClass) {
   const toggleButton = dropdown.querySelector('.dropdown-toggle');
 
   function updateButtonText() {
-    const selectedOptions = Array.from(originalSelect.options).filter(option => option.selected);
+    const checkboxes = document.querySelectorAll('.dropdown-item input[type=checkbox]');
+    const selectedOptions = [];
+    
+    checkboxes.forEach((checkbox, index) => {
+      originalSelect.options[index].selected = checkbox.checked;
+      if (checkbox.checked) selectedOptions.push(originalSelect.options[index]);
+    });
 
-    // 判斷是否有選中的選項，並更新顯示文字和箭頭
+    const selectedOptionsList = selectedOptions.map(option => option.value)
+
     if (selectedOptions.length > 0) {
-      toggleButton.innerHTML = selectedOptions.map(option => option.text).join(', ');
+      toggleButton.innerHTML = selectedOptionsList.join(', ');
+      console.log("selectedOptions(當前選中的選項值) :", selectedOptionsList);
     } else {
       toggleButton.innerHTML = '請選擇狀態<span class="arrow-icon">&#9662;</span>';
     }
@@ -29,19 +37,21 @@ function setupDropdown(selectId, formId, displayAreaClass) {
       return;
     }
 
+    console.log('提交後選中的選項值為：', selectedOptions.map(option => option.value));
+
     form.querySelectorAll('input[type="hidden"]').forEach(input => input.remove());
 
     selectedOptions.forEach(option => {
       const hiddenInput = document.createElement('input');
       hiddenInput.type = 'hidden';
-      hiddenInput.name = 'status[]';
+      hiddenInput.name = originalSelect.name;
       hiddenInput.value = option.value;
       form.appendChild(hiddenInput);
     });
 
      // 取得選中項目的值陣列方便後續處理
     const selectedValues = selectedOptions.map(option => option.value);
-    console.log('所選的狀態為:', selectedValues);
+    console.log('頁面所選的狀態為:', selectedValues);
 
     const selectedTexts = selectedOptions.map(option => option.text).join(', ');
     const displayArea = document.querySelector(displayAreaClass);
@@ -82,15 +92,6 @@ function setupDropdown(selectId, formId, displayAreaClass) {
     menuItem.appendChild(checkbox);
     menuItem.appendChild(label);
     menu.appendChild(menuItem);
-
-    menuItem.addEventListener('click', (event) => {
-      event.stopPropagation();
-      checkbox.checked = !checkbox.checked;
-      option.selected = checkbox.checked;
-      menuItem.classList.toggle('selected', checkbox.checked);
-      updateButtonText();
-    });
-
     checkbox.onchange = updateButtonText;
   });
 
@@ -134,3 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
     form.appendChild(hiddenInput);
   });
 });
+
+
+
+
+
